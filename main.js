@@ -1,16 +1,21 @@
 import express from 'express'
 import dotenv from 'dotenv'
-dotenv.config()
+import router from './src/routes/index.js'
 const app = express()
+dotenv.config()
+// middleware
+app.use( express.json() )
+// router
+app.use( "/api", router )
 
-app.use(express.json())
-
-app.route('/').get((req, res) => {
-  res.send('Helládlo!')
+app.use((err, req, res, next) => {
+    console.log("Error", err)
+    return res.status(500).json({
+        errror : err.message
+    })
 })
 
-const Port = 3000
-
+const Port = process.env.Port || 8000
 app.listen(Port, (req, res) => {
-  console.log(`Server is running on port ${Port}`)
+    console.log(`Server run at http://localhost:${Port}`)
 })
