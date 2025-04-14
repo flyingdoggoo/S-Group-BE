@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= pageTitle %></title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 60%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        h1, h2 { color: #333; }
+        a { margin-right: 15px; }
+    </style>
+</head>
+<body>
+    <h1><%= pageTitle %></h1>
+
+    <% if (users && users.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(function(user) { %>
+                    <tr>
+                        <td><%= user.id %></td>
+                        <td><%= user.name %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>Không có dữ liệu người dùng để hiển thị.</p>
+    <% } %>
+
+    <hr>
+    <h2>Liên kết tĩnh</h2>
+    <a href="/my_page.html">Xem Trang HTML Tĩnh</a>
+    <a href="/images/my_image.jpg">Xem Ảnh Tĩnh</a>
+
+</body>
+</html>
