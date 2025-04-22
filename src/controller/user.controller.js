@@ -23,8 +23,8 @@ const Post = async( req, res, next ) => {
 
 const GetById = async( req, res, next ) => {
     try {
-        const id = parseInt( req.params.id )
-        const user = await userService.GetById( id )
+        const userId = req.params.id;
+        const user = await userService.GetById(userId);
             return res.status(200).json({
                 data : user
             })
@@ -36,9 +36,11 @@ const GetById = async( req, res, next ) => {
 
 const PutById = async( req, res, next ) => {
     try {
-        const id = parseInt( req.params.id )
+        const userId = req.params.id;
         const body = req.body
-        const user = await userService.PutById( id, body )
+        console.log('Controller received raw ID:', userId, typeof userId); 
+        console.log('Controller received body:', body);
+        const user = await userService.PutById( userId, body )
         return res.status(200).json({
             data : user
         })
@@ -49,8 +51,8 @@ const PutById = async( req, res, next ) => {
 
 const DeleteById = async( req, res, next ) => {
     try {
-        const id = parseInt( req.params.id )
-        const users = await userService.DeleteById( id )
+        const userId = req.params.id;
+        const users = await userService.DeleteById( userId )
         return res.status(200).json({
             data : users
         })
@@ -59,11 +61,24 @@ const DeleteById = async( req, res, next ) => {
     }
 }
 
+const GetByField = async( req, res, next ) => {
+    try{
+        const {field, value} = req.query
+        const users = await userService.GetByField(field, value)
+        return res.status(200).json({
+            data : users
+        })
+    }
+    catch (error) {
+        next( error )
+    }
+}
 
 export default {
     GetAll,
     Post,
     GetById,
     PutById,
-    DeleteById
+    DeleteById,
+    GetByField
 }

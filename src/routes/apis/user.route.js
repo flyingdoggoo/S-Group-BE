@@ -6,7 +6,8 @@ const router = express.Router()
 router.route("/")
     .get(userController.GetAll)
     .post(ValidateUserId, userController.Post)
-
+router
+    .get("/search", userController.GetByField);
 router
     .route("/:id")
     .get(ValidateUserId, userController.GetById)

@@ -1,12 +1,10 @@
-export const ValidateUserId = async (req, res, next) => {
-    try {
-        const id = parseInt(req.params.id)
-        if (id <= 0)
-        {
-            return res.status(400).json("invalid id")
-        }
-        next()
-    } catch (error) {
-        next(error)
-    }
+import { ObjectId } from 'mongodb'; 
+
+export const ValidateUserId = (req, res, next) => { 
+    // const idString = req.params.id;
+
+    // if (!ObjectId.isValid(idString)) {
+    //     return res.status(400).json({ message: "Invalid User ID format" });
+    // }
+    next();
 }
