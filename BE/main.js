@@ -10,7 +10,6 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
-
 async function StartServer()
 {
     const connectionString = process.env.MONGODB_URI;
@@ -24,6 +23,7 @@ async function StartServer()
     app.use((req, res) => {
         res.status(404).send('404 Not Found');
     })
+    
     app.use((err, req, res) => {
         console.log(err.stack);
         res.status(500).send('Something aint right')
