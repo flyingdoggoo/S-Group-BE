@@ -1,8 +1,9 @@
 import express from 'express'
-import userRouter from './apis/user.route.js'
-
+import userRoutes from './apis/user.route.js'
+import uploadLocal from './apis/attachment.route.js'
 const routes = express.Router()
 
-routes.use('/users', userRouter)
+routes.use( "/users",  userRoutes )
+routes.use( "/upload",  uploadLocal )
 
 export default routes

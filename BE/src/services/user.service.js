@@ -118,6 +118,7 @@ class UserService{
             throw new Error("User already exists")
         }
         const hashedPassword = await bcrypt.hash(user.password, 10);
+        console.log(hashedPassword)
         const newUser = new this.user({
             ...user,
             password: hashedPassword,

@@ -4,6 +4,7 @@ import {fileURLToPath} from 'url';
 import path from 'path';
 import db from './src/configs/mongoose.config.js';
 import router from './src/routes/index.js'
+import cookieParser from 'cookie-parser'
 // router
 // instance of mongo
 const app = express();
@@ -17,11 +18,12 @@ async function StartServer()
     //middleware
     app.use(express.json());
     app.use(express.static(path.join(__dirname, 'public')))
+    app.use('/uploads', express.static(path.join(__dirname, 'common/uploads')))  
+    app.use(cookieParser())
     app.use('/api', router)
-
     //
     app.use((req, res) => {
-        res.status(404).send('404 Not Found');
+        res.status(404).send('404 Not Found ?');
     })
     
     app.use((err, req, res) => {
