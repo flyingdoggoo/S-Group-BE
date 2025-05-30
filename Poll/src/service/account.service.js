@@ -1,0 +1,51 @@
+import User from '../models/user.model.js'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
+class AccountService{
+    constructor()
+    {
+        this.user = User
+    }
+    async Login(username, password)
+    {
+        try
+        {
+            const user = await this.user.findOne({username: username})
+            const isMatch = await bcrypt.compare(password, user.password)
+            if(!user)
+                throw new Error(`Không tìm thấy user ${username}`)
+            if(!isMatch)
+                throw new Error("Sai mật khẩu")
+            const accessToken = jwt.sign({userId: user._id}, process.env.SECRET_KEY, {expiresIn: '60m'})
+            const refreshToken = jwt.sign({userId: user._id}, process.env.SECRET_KEY, {expiresIn: '3d'})
+            console.log(accessToken)
+            console.log(refreshToken)
+            return {accessToken, refreshToken}
+        }
+        catch(err)
+        {
+            throw new Error("Lỗi khi đăng nhập: " + err.message)
+        }
+    }
+    async Register(user)
+    {
+        try
+        {
+            const findUser = await this.user.findOne({username: user.username})
+            if(findUser)
+                throw new Error(`username ${user.username} đã tồn tại`)
+            const password = await bcrypt.hash(user.password, 10)
+            const newUser = new this.user({
+                ...user,
+                password: password
+            })
+            const save = await newUser.save()
+            return save
+        }
+        catch(error)
+        {
+            throw new Error("Lỗi khi đăng kí: " + error.message)
+        }
+    }
+}
+export default new AccountService()
