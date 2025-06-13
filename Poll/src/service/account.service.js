@@ -1,6 +1,7 @@
 import User from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import isValidRegister from '../validate/register.validate.js'
 class AccountService{
     constructor()
     {
@@ -18,9 +19,12 @@ class AccountService{
                 throw new Error("Sai mật khẩu")
             const accessToken = jwt.sign({userId: user._id}, process.env.SECRET_KEY, {expiresIn: '60m'})
             const refreshToken = jwt.sign({userId: user._id}, process.env.SECRET_KEY, {expiresIn: '3d'})
+            user.accessToken = accessToken
+            user.refreshToken = refreshToken
+            await user.save()
             console.log(accessToken)
             console.log(refreshToken)
-            return {accessToken, refreshToken}
+            return user
         }
         catch(err)
         {
@@ -31,6 +35,10 @@ class AccountService{
     {
         try
         {
+            if(!isValidRegister(user.username, user.password))
+            {
+                throw new Error("Tài khoản hoặc mật khẩu không hợp lệ! ");
+            }
             const findUser = await this.user.findOne({username: user.username})
             if(findUser)
                 throw new Error(`username ${user.username} đã tồn tại`)

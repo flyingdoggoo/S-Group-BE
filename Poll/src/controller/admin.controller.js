@@ -193,7 +193,7 @@ class AdminController{
             const result = await AdminService.LockPoll(pollId)
             if(!result)
                 return res.status(400).json({message: "LockPoll thất bại"})
-            return res.status(400).json({
+            return res.status(200).json({
                 message: "LockPoll thành công",
                 data: result
             })
@@ -211,7 +211,7 @@ class AdminController{
             const result = await AdminService.UnLockPoll(pollId)
             if(!result)
                 return res.status(400).json({message: "UnLockPoll thất bại"})
-            return res.status(400).json({
+            return res.status(200).json({
                 message: "UnLockPoll thành công",
                 data: result
             })

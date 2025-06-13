@@ -1,6 +1,7 @@
 import express from 'express'
 import UserController from "../../controller/user.controller.js"
 import DefaultController from '../../controller/default.controller.js'
+
 const router = express.Router()
 
 router.route("/polls")
@@ -12,4 +13,5 @@ router.route("/polls/:id")
 router.route("/polls/:pollId/vote")
     .post(UserController.Vote)
     .delete(UserController.UnVote)
+
 export default router

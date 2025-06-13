@@ -6,12 +6,12 @@ class AccountController{
         try
         {
             const user = req.body
-            const token = await accountService.Login(user.username, user.password)
-            if(!token)
+            const existUser = await accountService.Login(user.username, user.password)
+            if(!existUser)
                 return res.status(401).json({message: "Sai username hoặc password"})
             return res.status(200).json({
                 message: "Đăng nhập thành công",
-                token: token
+                user: existUser
             })
         }
         catch(err)

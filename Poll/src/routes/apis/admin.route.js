@@ -1,6 +1,5 @@
 import express from 'express'
 import AdminController from "../../controller/admin.controller.js"
-import DefaultController from '../../controller/default.controller.js'
 const router = express.Router()
 
 router.route("/polls")
@@ -25,4 +24,5 @@ router.route("/users")
 router.route("/users/:id")
     .get(AdminController.GetUserById)
     .delete(AdminController.DeleteUser)
+
 export default router

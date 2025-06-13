@@ -21,7 +21,6 @@ class UserService{
             if (option.userVote.includes(idVoter)) 
                 throw new Error("User đã vote rồi");
             
-            
             option.userVote.push(idVoter)
             option.votes += 1
             votePoll.votesCount += 1
@@ -41,7 +40,8 @@ class UserService{
             const votePoll = await this.poll.findOne({_id: idPoll})
             if(!votePoll)
                 throw new Error("Poll được vote không tồn tại")
-    
+            if(votePoll.isLocked)
+                throw new Error("Poll đã bị khóa vote")
             const option = votePoll.options.id(idOption)
             if(!option)
                 throw new Error("Option không tồn tại");
