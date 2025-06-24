@@ -15,6 +15,7 @@ try
     app.use((req, res) => {
         res.status(404).json({message: "Không tìm thấy route hợp lệ"})
     })
+    ///
     app.use((err, req, res, next) => {
         console.error(err.stack)
         res.status(500).json({
