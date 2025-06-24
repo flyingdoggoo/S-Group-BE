@@ -1,0 +1,32 @@
+name: CI/CD aggin
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+
+      - name: Copy source code to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "rm -rf ~/S-Group-BE/Poll && mkdir -p ~/S-Group-BE/Poll"
+          scp -r . ubuntu@${{ secrets.EC2_HOST }}:~/S-Group-BE/Poll
+
+      - name: Deploy and restart Docker
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            cd ~/S-Group-BE/Poll
+            docker compose down
+            docker compose up -d --build
+          EOF

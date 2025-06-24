@@ -4,8 +4,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --inspect main.js"
+    "dev": "nodemon --inspect main.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +18,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
     "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "jest": "^30.0.2",
+    "supertest": "^7.1.1"
   }
 }
