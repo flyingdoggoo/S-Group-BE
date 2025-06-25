@@ -12,9 +12,9 @@ class AccountService{
         try
         {
             const user = await this.user.findOne({username: username})
-            const isMatch = await bcrypt.compare(password, user.password)
             if(!user)
                 throw new Error(`Không tìm thấy user ${username}`)
+            const isMatch = await bcrypt.compare(password, user.password)
             if(!isMatch)
                 throw new Error("Sai mật khẩu")
             const accessToken = jwt.sign({userId: user._id}, process.env.SECRET_KEY, {expiresIn: '60m'})
