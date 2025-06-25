@@ -33,5 +33,6 @@ jobs:
       - name: Run test
         run: |
           cd Poll
+          npm install
           npm test
 
