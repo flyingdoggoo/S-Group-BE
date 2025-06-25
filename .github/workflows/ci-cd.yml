@@ -32,5 +32,6 @@ jobs:
           EOF
       - name: Run test
         run: |
+          cd Poll
           npm test
 
