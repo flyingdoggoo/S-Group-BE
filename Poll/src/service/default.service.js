@@ -30,6 +30,7 @@ class DefaultService{
                 totalPage: totalPages
             }
         }
+        ///
         catch(err)
         {
             throw new Error("Lỗi khi GetAllPoll " + err.message)
