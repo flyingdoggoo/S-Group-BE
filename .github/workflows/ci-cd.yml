@@ -13,12 +13,6 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Run test
-        working-directory: Poll
-        run: |
-          npm install
-          npm test
-
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -26,8 +20,8 @@ jobs:
 
       - name: Copy source code to EC2
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" Poll ubuntu@${{ secrets.EC2_HOST }}:~/S-Group-BE/
-          scp -v -r Poll ubuntu@${{ secrets.EC2_HOST }}:~/S-Group-BE/
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} "rm -rf ~/S-Group-BE/Poll && mkdir -p ~/S-Group-BE/Poll"
+          scp -r Poll/* ubuntu@${{ secrets.EC2_HOST }}:~/S-Group-BE/Poll
 
       - name: Deploy and restart Docker
         run: |
@@ -36,4 +30,10 @@ jobs:
             sudo docker compose down
             sudo docker compose up -d --build
           EOF
+          
+      - name: Run test
+        run: |
+          cd Poll
+          npm install
+          npm test
 
