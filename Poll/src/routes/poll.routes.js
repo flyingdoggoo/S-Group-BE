@@ -12,4 +12,7 @@ routes.use("/", defautRoute)
 routes.use("/auth", accountRoute)
 routes.use("/user", Authenticate, userRoute)
 routes.use("/admin", Authenticate, isAdmin, adminRoute)
+routes.get("/test_api", (req, res) => {
+    res.send("test ci cd")
+})
 export default routes
