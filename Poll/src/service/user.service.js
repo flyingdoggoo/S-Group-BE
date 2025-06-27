@@ -9,6 +9,7 @@ class UserService{
     {
         try
         {
+            //
             const votePoll = await this.poll.findOne({_id: idPoll})
             if(!votePoll)
                 throw new Error("Poll được vote không tồn tại")
